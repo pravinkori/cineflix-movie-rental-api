@@ -41,6 +41,21 @@ app.get("/api/genres/:id", (res, req) => {
     res.send(genreByID);
 });
 
+app.post("/api/genres", (req, res) => {
+    const { error } = validateGenre(req.body);
+
+    if (error) {
+        return res.status(404).send(result.error.details[0].message);
+    }
+
+    const newGenre = {
+        id: genres.length + 1,
+        name: req.body.name,
+    };
+    genres.push(newGenre);
+    res.send(newGenre);
+});
+
 app.listen(port, () => {
     console.log(`listening on port http://localhost:${port}`);
 });
