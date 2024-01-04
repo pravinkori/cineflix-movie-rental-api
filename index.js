@@ -56,6 +56,25 @@ app.post("/api/genres", (req, res) => {
     res.send(newGenre);
 });
 
+app.put("/api/genres/:id", (req, res) => {
+    const updateGenreByID = courses.find(
+        (genre) => genre.id === parseInt(req.params.id)
+    );
+
+    if (!updateGenreByID) {
+        return res.status(404).send("The course with given ID was not found");
+    }
+
+    const { error } = validateCourse(req.body);
+
+    if (error) {
+        return res.status(400).send(result.error.details[0].message);
+    }
+
+    updateGenreByID.name = req.body.name;
+    res.send(updateGenreByID);
+});
+
 app.listen(port, () => {
     console.log(`listening on port http://localhost:${port}`);
 });
