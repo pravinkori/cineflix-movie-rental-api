@@ -75,6 +75,20 @@ app.put("/api/genres/:id", (req, res) => {
     res.send(updateGenreByID);
 });
 
+app.delete("/api/genres/:id", (req, res) => {
+    const deleteGenreByID = genres.find(
+        (genre) => genre.id === parseInt(req.params.id)
+    );
+    if (!deleteGenreByID) {
+        return res.status(404).send("The genre with given ID was not found");
+    }
+
+    const index = genres.indexOf(deleteGenreByID);
+    genres.splice(index, 1);
+
+    res.send(deleteGenreByID);
+});
+
 app.listen(port, () => {
     console.log(`listening on port http://localhost:${port}`);
 });
