@@ -15,6 +15,9 @@ app.use(express.json());
 // 'express.urlencoded({ extended: true })' parses URL-encoded data from form submissions.
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files from the 'public' directory using Express middleware.
+app.use(express.static("public"));
+
 // 'helmet()' applies various HTTP headers for improved security.
 app.use(helmet());
 
