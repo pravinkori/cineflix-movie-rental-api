@@ -1,10 +1,22 @@
 const express = require("express");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const startupDebugger = require("debug")("app:startup");
+const databaseDebugger = require("debug")("app:database");
 const Joi = require("joi");
 const dotenv = require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+
+if (app.get("env") === "development") {
+    app.use(morgan("dev"));
+    startupDebugger("Morgan logger enabled...");
+    databaseDebugger("Connected to database...");
+}
 
 const genres = [
     { id: 1, name: "action" },
@@ -62,7 +74,7 @@ app.put("/api/genres/:id", (req, res) => {
     );
 
     if (!updateGenreByID) {
-        return res.status(404).send("The course with given ID was not found");
+        return res.status(404).send("The genre with given ID was not found");
     }
 
     const { error } = validateCourse(req.body);
