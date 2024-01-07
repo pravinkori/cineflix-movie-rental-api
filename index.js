@@ -8,14 +8,24 @@ const home = require("./routes/home.js");
 const genres = require("./routes/genres.js");
 const app = express();
 
+// Middleware setup:
+// 'express.json()' parses incoming JSON payloads.
 app.use(express.json());
+
+// 'express.urlencoded({ extended: true })' parses URL-encoded data from form submissions.
 app.use(express.urlencoded({ extended: true }));
+
+// 'helmet()' applies various HTTP headers for improved security.
 app.use(helmet());
 
-// routes
+// Routes setup:
+// '/api/genres' endpoint is handled by the 'genres' router.
 app.use("api/genres", genres);
+
+// '/' endpoint is handled by the 'home' router.
 app.use("/", home);
 
+// Enable 'morgan' logging in development environment and log status.
 if (app.get("env") === "development") {
     app.use(morgan("dev"));
     startupDebugger("Morgan logger enabled...");
