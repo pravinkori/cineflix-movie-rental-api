@@ -22,7 +22,7 @@ const customerSchema = new mongoose.Schema({
     },
 });
 
-const Customer = mongoose.model("Genre", customerSchema);
+const Customer = mongoose.model("Customer", customerSchema);
 
 router.get("/", async (req, res) => {
     const customers = await Customer.find().sort("name");
