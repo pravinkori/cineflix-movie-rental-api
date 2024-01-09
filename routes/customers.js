@@ -55,6 +55,30 @@ router.post("/", async (req, res) => {
     res.send(newCustomer);
 });
 
+router.put("/:id", async (req, res) => {
+    const { error } = validateCustomer(req.body);
+    if (error) {
+        return res.status(400).send(result.error.details[0].message);
+    }
+
+    const updateCustomerByID = await Genre.findByIdAndUpdate(
+        req.params.id,
+        {
+            name: req.body.name,
+            phone: req.body.phone,
+        },
+        {
+            new: true,
+        }
+    );
+
+    if (!updateCustomerByID) {
+        return res.status(404).send("The genre with given ID was not found");
+    }
+
+    res.send(updateCustomerByID);
+});
+
 function validateCustomer(customer) {
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
