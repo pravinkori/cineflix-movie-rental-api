@@ -17,8 +17,8 @@ const customerSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
-        min: 10,
-        max: 10,
+        minlength: 10,
+        maxlength: 10,
     },
 });
 
@@ -51,14 +51,20 @@ router.post("/", async (req, res) => {
         phone: req.body.phone,
         isGold: req.body.isGold,
     });
-    newCustomer = await newCustomer.save();
-    res.send(newCustomer);
+    try {
+        newCustomer = await newCustomer.save();
+        res.send(newCustomer);
+    } catch (err) {
+        for (field in err.errors) {
+            console.log(err.errors[field].message);
+        }
+    }
 });
 
 router.put("/:id", async (req, res) => {
     const { error } = validateCustomer(req.body);
     if (error) {
-        return res.status(400).send(result.error.details[0].message);
+        return res.status(400).send(error.details[0].message);
     }
 
     const updateCustomerByID = await Customer.findByIdAndUpdate(
