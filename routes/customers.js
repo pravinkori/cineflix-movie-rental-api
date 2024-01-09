@@ -1,7 +1,5 @@
 const express = require("express");
 const { Customer, validateCustomer } = require("../models/customer.model.js");
-const mongoose = require("mongoose");
-const Joi = require("joi");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
