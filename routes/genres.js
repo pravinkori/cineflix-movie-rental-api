@@ -1,14 +1,18 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const Joi = require("joi");
 const router = express.Router();
 
-const genres = [
-    { id: 1, name: "action" },
-    { id: 2, name: "comedy" },
-    { id: 3, name: "drama" },
-    { id: 4, name: "sci-fi" },
-    { id: 5, name: "fantasy" },
-];
+const genreSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50,
+    },
+});
+
+const Genre = mongoose.model("Genre", genreSchema);
 
 function validateGenre(genre) {
     const schema = Joi.object({

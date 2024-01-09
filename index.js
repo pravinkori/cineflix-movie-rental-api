@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const startupDebugger = require("debug")("app:startup");
@@ -7,6 +8,11 @@ const dotenv = require("dotenv").config();
 const home = require("./routes/home.js");
 const genres = require("./routes/genres.js");
 const app = express();
+
+mongoose
+    .connect("mongodb://localhost:27017/playground")
+    .then(() => databaseDebugger("Connected to database..."))
+    .catch((err) => console.error("could not connect to database"));
 
 // Middleware setup:
 // 'express.json()' parses incoming JSON payloads.
@@ -32,7 +38,7 @@ app.use("/", home);
 if (app.get("env") === "development") {
     app.use(morgan("dev"));
     startupDebugger("Morgan logger enabled...");
-    databaseDebugger("Connected to database...");
+    // databaseDebugger("Connected to database...");
 }
 
 const port = process.env.PORT || 5000;
