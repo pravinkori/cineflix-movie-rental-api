@@ -7,6 +7,7 @@ const databaseDebugger = require("debug")("app:database");
 const dotenv = require("dotenv").config();
 const home = require("./routes/home.js");
 const genres = require("./routes/genres.js");
+const customers = require("./routes/customers.js");
 const app = express();
 
 mongoose
@@ -30,6 +31,8 @@ app.use(helmet());
 // Routes setup:
 // '/api/genres' endpoint is handled by the 'genres' router.
 app.use("/api/genres", genres);
+// '/api/customers' endpoint is handled by the 'customers' router.
+app.use("/api/customers", customers);
 
 // '/' endpoint is handled by the 'home' router.
 app.use("/", home);
