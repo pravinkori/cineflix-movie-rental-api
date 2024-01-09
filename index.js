@@ -10,7 +10,7 @@ const genres = require("./routes/genres.js");
 const app = express();
 
 mongoose
-    .connect("mongodb://localhost:27017/playground")
+    .connect("mongodb://localhost:27017/cineflix")
     .then(() => databaseDebugger("Connected to database..."))
     .catch((err) => console.error("could not connect to database"));
 
@@ -29,7 +29,7 @@ app.use(helmet());
 
 // Routes setup:
 // '/api/genres' endpoint is handled by the 'genres' router.
-app.use("api/genres", genres);
+app.use("/api/genres", genres);
 
 // '/' endpoint is handled by the 'home' router.
 app.use("/", home);
