@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
     }
 
     let newMovie = new Movie({
-        title: req.body.titile,
+        title: req.body.title,
         genre: {
             _id: genre._id,
             name: genre.name,
@@ -84,7 +84,7 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-    const deleteMovieByID = await Customer.findByIdAndDelete(req.params.id);
+    const deleteMovieByID = await Movie.findByIdAndDelete(req.params.id);
 
     if (!deleteMovieByID) {
         return res.status(404).send("The movie with given ID was not found");
