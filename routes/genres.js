@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     const { error } = validateGenre(req.body);
 
     if (error) {
-        return res.status(404).send(result.error.details[0].message);
+        return res.status(404).send(error.details[0].message);
     }
 
     let newGenre = new Genre({
