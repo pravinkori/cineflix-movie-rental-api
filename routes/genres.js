@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
     const { error } = validateGenre(req.body);
     if (error) {
-        return res.status(400).send(result.error.details[0].message);
+        return res.status(400).send(error.details[0].message);
     }
 
     const updateGenreByID = await Genre.findByIdAndUpdate(
