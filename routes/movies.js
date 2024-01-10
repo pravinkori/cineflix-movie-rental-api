@@ -77,8 +77,20 @@ router.put("/:id", async (req, res) => {
     );
 
     if (!updateMovieByID) {
-        return res.status(404).send("The genre with given ID was not found");
+        return res.status(404).send("The movie with given ID was not found");
     }
 
     res.send(updateMovieByID);
 });
+
+router.delete("/:id", async (req, res) => {
+    const deleteMovieByID = await Customer.findByIdAndDelete(req.params.id);
+
+    if (!deleteMovieByID) {
+        return res.status(404).send("The movie with given ID was not found");
+    }
+
+    res.send(deleteMovieByID);
+});
+
+module.exports = router;
