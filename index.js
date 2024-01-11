@@ -9,7 +9,8 @@ const home = require("./routes/home.js");
 const genres = require("./routes/genres.js");
 const customers = require("./routes/customers.js");
 const movies = require("./routes/movies.js");
-const rental = require("./routes/rentals.js");
+const rentals = require("./routes/rentals.js");
+const users = require("./routes/users.js");
 const app = express();
 
 mongoose
@@ -38,7 +39,9 @@ app.use("/api/customers", customers);
 // '/api/movies' endpoint is handled by the 'movies' router.
 app.use("/api/movies", movies);
 // '/api/rentals' endpoint is handled by the 'rentals' router.
-app.use("/api/rentals", rental);
+app.use("/api/rentals", rentals);
+// '/api/users' endpoint is handled by the 'users' router.
+app.use("/api/users", users);
 
 // '/' endpoint is handled by the 'home' router.
 app.use("/", home);
