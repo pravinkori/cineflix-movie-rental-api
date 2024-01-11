@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const express = require("express");
+const bcrypt = require("bcrypt");
 const { User, validateUser } = require("../models/users.model.js");
 const router = express.Router();
 
@@ -24,6 +25,11 @@ router.post("/", async (req, res) => {
 
     // Creating a new User instance with selected properties from the request body
     user = new User(_.pick(req.body, ["name", "email", "password"]));
+
+    // Generating a salt and hashing the user's password for enhanced security
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+
     try {
         // Saving the new user to the database
         newUser = await user.save();
