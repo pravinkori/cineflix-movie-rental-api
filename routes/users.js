@@ -22,18 +22,14 @@ router.post("/", async (req, res) => {
         return res.status(400).send("User already registered");
     }
 
-    // Creating a new User instance with the provided data
-    user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-    });
+    // Creating a new User instance with selected properties from the request body
+    user = new User(_.pick(req.body, ["name", "email", "password"]));
     try {
         // Saving the new user to the database
         newUser = await user.save();
 
         // Sending a response with selected properties of the newly registered user
-        res.send(_.pick(newUser, ["name", "email"]));
+        res.send(_.pick(newUser, ["_id", "name", "email"]));
     } catch (err) {
         // Handling any errors that occur during the save operation
         for (field in err.errors) {
