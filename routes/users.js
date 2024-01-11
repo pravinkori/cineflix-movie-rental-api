@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const express = require("express");
 const { User, validateUser } = require("../models/users.model.js");
 const router = express.Router();
@@ -31,8 +32,8 @@ router.post("/", async (req, res) => {
         // Saving the new user to the database
         newUser = await user.save();
 
-        // Sending the new user details as a response
-        res.send(newUser);
+        // Sending a response with selected properties of the newly registered user
+        res.send(_.pick(newUser, ["name", "email"]));
     } catch (err) {
         // Handling any errors that occur during the save operation
         for (field in err.errors) {
