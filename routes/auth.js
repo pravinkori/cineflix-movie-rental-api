@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 
     // If the user does not exist, return a 401 status
     if (!user) {
-        return res.status(401).send("Invalid email or password");
+        return res.status(400).send("Invalid email or password");
     }
 
     // Compare the password from request body
@@ -33,16 +33,16 @@ router.post("/", async (req, res) => {
 
     // If the password is invalid, return a 401 status
     if (!validPassword) {
-        return res.status(401).send("Invalid email or password");
+        return res.status(400).send("Invalid email or password");
     }
 
     const token = user.generateAuthToken();
-
-    res.send({
-        token: token,
-        user: `Welcome to cineflix! ${user.name}`,
-        success: true,
-    });
+    res.send(token);
+    // res.send({
+    //     token: token,
+    //     // user: `Welcome to cineflix! ${user.name}`,
+    //     // success: true,
+    // });
 });
 
 const complexityOptions = {
