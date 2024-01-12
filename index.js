@@ -11,6 +11,8 @@ const customers = require("./routes/customers.js");
 const movies = require("./routes/movies.js");
 const rentals = require("./routes/rentals.js");
 const users = require("./routes/users.js");
+const auth = require("./routes/auth.js");
+
 const app = express();
 
 mongoose
@@ -42,6 +44,8 @@ app.use("/api/movies", movies);
 app.use("/api/rentals", rentals);
 // '/api/users' endpoint is handled by the 'users' router.
 app.use("/api/users", users);
+// '/api/users' endpoint is handled by the 'users' router.
+app.use("/api/auth", auth);
 
 // '/' endpoint is handled by the 'home' router.
 app.use("/", home);
