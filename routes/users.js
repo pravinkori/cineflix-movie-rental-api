@@ -1,6 +1,8 @@
 const _ = require("lodash");
-const express = require("express");
 const bcrypt = require("bcrypt");
+const config = require("config");
+const express = require("express");
+const jwt = require("jsonwebtoken");
 const { User, validateUser } = require("../models/users.model.js");
 const router = express.Router();
 
@@ -33,6 +35,10 @@ router.post("/", async (req, res) => {
     try {
         // Saving the new user to the database
         newUser = await user.save();
+
+        const token = user.generateAuthToken();
+
+        res.header("x-auth-token", token);
 
         // Sending a response with selected properties of the newly registered user
         res.send(_.pick(newUser, ["_id", "name", "email"]));

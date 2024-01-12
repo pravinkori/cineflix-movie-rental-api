@@ -16,6 +16,7 @@ const auth = require("./routes/auth.js");
 
 const app = express();
 
+// Check if jwtSecret is defined in the configuration
 if (!config.get("jwtSecret")) {
     console.error("FATAL ERROR: jwtPrivateKey is not defined");
     process.exit(1);
@@ -23,7 +24,7 @@ if (!config.get("jwtSecret")) {
 
 mongoose
     .connect("mongodb://localhost:27017/cineflix")
-    .then(() => databaseDebugger("Connected to database..."))
+    .then(() => console.log("Connected to database..."))
     .catch((err) => console.error("could not connect to database"));
 
 // Middleware setup:
