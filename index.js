@@ -1,4 +1,5 @@
 const express = require("express");
+const config = require("config");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -14,6 +15,11 @@ const users = require("./routes/users.js");
 const auth = require("./routes/auth.js");
 
 const app = express();
+
+if (!config.get("jwtSecret")) {
+    console.error("FATAL ERROR: jwtPrivateKey is not defined");
+    process.exit(1);
+}
 
 mongoose
     .connect("mongodb://localhost:27017/cineflix")
