@@ -13,6 +13,7 @@ const movies = require("./routes/movies.js");
 const rentals = require("./routes/rentals.js");
 const users = require("./routes/users.js");
 const auth = require("./routes/auth.js");
+const error = require("./middleware/error.js");
 
 const app = express();
 
@@ -53,9 +54,11 @@ app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 // '/api/users' endpoint is handled by the 'users' router.
 app.use("/api/auth", auth);
-
 // '/' endpoint is handled by the 'home' router.
 app.use("/", home);
+
+// Registering an error-handling middleware
+app.use(error);
 
 // Enable 'morgan' logging in development environment and log status.
 if (app.get("env") === "development") {
