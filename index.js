@@ -1,59 +1,20 @@
 const express = require("express");
 const config = require("config");
-const mongoose = require("mongoose");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const winston = require("winston");
-require("winston-mongodb");
 const startupDebugger = require("debug")("app:startup");
-const databaseDebugger = require("debug")("app:database");
 const dotenv = require("dotenv").config();
 
 const app = express();
+require("./startup/logging.js");
 require("./startup/routes.js")(app);
-
-process.on("uncaughtException", (ex) => {
-    console.log("GOT AN UNCAUGHT EXCEPTION.");
-    winston.error(ex.message, ex);
-    process.exit(1);
-});
-
-process.on("unhandledRejection", (ex) => {
-    console.log("GOT AN UNHANDLED REJECTION.");
-    winston.error(ex.message, ex);
-    process.exit(1);
-});
-
-const logger = winston.createLogger({
-    level: "info",
-    format: winston.format.json(),
-    defaultMeta: { service: "user-service" },
-    transports: [
-        new winston.transports.File({
-            filename: "logfile.log",
-            level: "info",
-        }),
-    ],
-});
-
-winston.add(
-    new winston.transports.MongoDB({
-        db: "mongodb://localhost:27017/cineflix",
-        level: "info",
-        metaKey: "meta",
-    })
-);
+require("./startup/db.js")();
 
 // Check if jwtSecret is defined in the configuration
 if (!config.get("jwtSecret")) {
     console.error("FATAL ERROR: jwtPrivateKey is not defined");
     process.exit(1);
 }
-
-mongoose
-    .connect("mongodb://localhost:27017/cineflix")
-    .then(() => console.log("Connected to database..."))
-    .catch((err) => console.error("could not connect to database"));
 
 // Middleware setup:
 // 'express.json()' parses incoming JSON payloads.
