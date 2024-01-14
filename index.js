@@ -1,5 +1,5 @@
 const express = require("express");
-const config = require("config");
+const winston = require("winston");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const startupDebugger = require("debug")("app:startup");
@@ -9,12 +9,7 @@ const app = express();
 require("./startup/logging.js");
 require("./startup/routes.js")(app);
 require("./startup/db.js")();
-
-// Check if jwtSecret is defined in the configuration
-if (!config.get("jwtSecret")) {
-    console.error("FATAL ERROR: jwtPrivateKey is not defined");
-    process.exit(1);
-}
+require("./startup/config.js")();
 
 // Middleware setup:
 // 'express.json()' parses incoming JSON payloads.
@@ -37,5 +32,5 @@ if (app.get("env") === "development") {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-    console.log(`listening on port http://localhost:${port}`);
+    winston.info(`listening on port http://localhost:${port}`);
 });
