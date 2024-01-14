@@ -22,6 +22,13 @@ const app = express();
 process.on("uncaughtException", (ex) => {
     console.log("GOT AN UNCAUGHT EXCEPTION.");
     winston.error(ex.message, ex);
+    process.exit(1);
+});
+
+process.on("unhandledRejection", (ex) => {
+    console.log("GOT AN UNHANDLED REJECTION.");
+    winston.error(ex.message, ex);
+    process.exit(1);
 });
 
 const logger = winston.createLogger({
