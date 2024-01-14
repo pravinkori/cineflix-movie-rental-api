@@ -33,7 +33,6 @@ app.use(helmet());
 if (app.get("env") === "development") {
     app.use(morgan("dev"));
     startupDebugger("Morgan logger enabled...");
-    // databaseDebugger("Connected to database...");
 }
 
 const port = process.env.PORT || 5000;

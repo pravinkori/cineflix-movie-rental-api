@@ -1,3 +1,4 @@
+const dotenv = require("dotenv").config();
 const winston = require("winston");
 require("winston-mongodb");
 
@@ -43,7 +44,7 @@ exports.module = function () {
     // Adding a MongoDB transport to log to a MongoDB database ('cineflix')
     winston.add(
         new winston.transports.MongoDB({
-            db: "mongodb://localhost:27017/cineflix",
+            db: DATABASE_URI,
             level: "info",
             metaKey: "meta",
         })
