@@ -8,12 +8,8 @@ const router = express.Router();
 router.get(
     "/",
     asyncMiddleware(async (req, res, next) => {
-        try {
-            const genres = await Genre.find().sort("name");
-            res.send(genres);
-        } catch (err) {
-            next(err);
-        }
+        const genres = await Genre.find().sort("name");
+        res.send(genres);
     })
 );
 
