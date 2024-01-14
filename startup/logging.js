@@ -12,6 +12,10 @@ exports.module = function () {
     process.on("uncaughtException", (ex) => {
         console.log("GOT AN UNCAUGHT EXCEPTION.");
         winston.error(ex.message, ex);
+        new winston.transports.console({
+            colorize: true,
+            prettyPrint: true,
+        });
         process.exit(1);
     });
 
