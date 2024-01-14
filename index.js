@@ -19,6 +19,11 @@ const error = require("./middleware/error.js");
 
 const app = express();
 
+process.on("uncaughtException", (ex) => {
+    console.log("GOT AN UNCAUGHT EXCEPTION.");
+    winston.error(ex.message, ex);
+});
+
 const logger = winston.createLogger({
     level: "info",
     format: winston.format.json(),
@@ -26,7 +31,7 @@ const logger = winston.createLogger({
     transports: [
         new winston.transports.File({
             filename: "logfile.log",
-            level: "error",
+            level: "info",
         }),
     ],
 });
