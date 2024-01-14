@@ -1,3 +1,5 @@
+const winston = require("winston");
+
 /**
  * Error-handling middleware for handling internal server errors.
  *
@@ -7,6 +9,9 @@
  * @param {Function} next - The next middleware function in the chain.
  */
 function error(err, req, res, next) {
+    // Log the eroor
+    winston.error(err.message, err);
+
     // Set the HTTP status code to 500 (Internal Server Error) and send a generic error message
     res.status(500).send("Something failed.");
 }

@@ -3,6 +3,7 @@ const config = require("config");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const winston = require("winston");
 const startupDebugger = require("debug")("app:startup");
 const databaseDebugger = require("debug")("app:database");
 const dotenv = require("dotenv").config();
@@ -16,6 +17,18 @@ const auth = require("./routes/auth.js");
 const error = require("./middleware/error.js");
 
 const app = express();
+
+const logger = winston.createLogger({
+    level: "info",
+    format: winston.format.json(),
+    defaultMeta: { service: "user-service" },
+    transports: [
+        new winston.transports.File({
+            filename: "logfile.log",
+            level: "error",
+        }),
+    ],
+});
 
 // Check if jwtSecret is defined in the configuration
 if (!config.get("jwtSecret")) {
