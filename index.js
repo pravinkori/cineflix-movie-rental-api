@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const winston = require("winston");
+require("winston-mongodb");
 const startupDebugger = require("debug")("app:startup");
 const databaseDebugger = require("debug")("app:database");
 const dotenv = require("dotenv").config();
@@ -29,6 +30,14 @@ const logger = winston.createLogger({
         }),
     ],
 });
+
+winston.add(
+    new winston.transports.MongoDB({
+        db: "mongodb://localhost:27017/cineflix",
+        level: "info",
+        metaKey: "meta",
+    })
+);
 
 // Check if jwtSecret is defined in the configuration
 if (!config.get("jwtSecret")) {
