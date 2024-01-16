@@ -1,9 +1,9 @@
 const winston = require("winston");
 const mongoose = require("mongoose");
+const config = require("config");
 const dotenv = require("dotenv").config();
 
 module.exports = function () {
-    mongoose
-        .connect(process.env.DATABASE_URI)
-        .then(() => winston.info("Connected to database..."));
+    const db = process.env.DATABASE_URI;
+    mongoose.connect(db).then(() => winston.info(`Connected to ${db}...`));
 };
