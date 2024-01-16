@@ -4,6 +4,6 @@ const config = require("config");
 const dotenv = require("dotenv").config();
 
 module.exports = function () {
-    const db = process.env.DATABASE_URI;
+    const db = process.env.TEST_DATABASE_URI;
     mongoose.connect(db).then(() => winston.info(`Connected to ${db}...`));
 };
