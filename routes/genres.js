@@ -2,8 +2,9 @@ const express = require("express");
 const { Genre, validateGenre } = require("../models/genres.model.js");
 const auth = require("../middleware/auth.js");
 const admin = require("../middleware/admin.js");
+const validateObjectId = require("../middleware/validateObjectId.js");
 const asyncMiddleware = require("../middleware/async.js");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const router = express.Router();
 
 router.get(
@@ -17,6 +18,7 @@ router.get(
 
 router.get(
     "/:id",
+    validateObjectId,
     asyncMiddleware(async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(404).send("Invalid ID");
