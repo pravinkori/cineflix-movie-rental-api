@@ -12,9 +12,6 @@ require("./startup/db.js")();
 require("./startup/config.js")();
 
 // Middleware setup:
-// 'express.json()' parses incoming JSON payloads.
-app.use(express.json());
-
 // 'express.urlencoded({ extended: true })' parses URL-encoded data from form submissions.
 app.use(express.urlencoded({ extended: true }));
 

@@ -10,6 +10,8 @@ const error = require("../middleware/error.js");
 
 module.exports = function (app) {
     // Routes setup:
+    // 'express.json()' parses incoming JSON payloads.
+    app.use(express.json());
     // '/api/genres' endpoint is handled by the 'genres' router.
     app.use("/api/genres", genres);
     // '/api/customers' endpoint is handled by the 'customers' router.
