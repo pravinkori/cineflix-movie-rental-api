@@ -210,7 +210,7 @@ describe("/api/genres", () => {
         it("should return 404 if id is invalid", async () => {
             id = 1;
 
-            const res = await exec();
+            const res = await execute();
 
             expect(res.status).toBe(404);
         });
@@ -218,9 +218,24 @@ describe("/api/genres", () => {
         it("should return 404 if no genre with the given id was found", async () => {
             id = new mongoose.Types.ObjectId();
 
-            const res = await exec();
+            const res = await execute();
 
             expect(res.status).toBe(404);
+        });
+
+        it("should delete the genre if input is valid", async () => {
+            await execute();
+
+            const genreInDb = await Genre.findById(id);
+
+            expect(genreInDb).toBeNull();
+        });
+
+        it("should return the removed genre", async () => {
+            const res = await execute();
+
+            expect(res.body).toHaveProperty("_id", genre._id.toHexString());
+            expect(res.body).toHaveProperty("name", genre.name);
         });
     });
 });
