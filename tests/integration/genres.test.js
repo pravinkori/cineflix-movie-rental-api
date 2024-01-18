@@ -144,5 +144,28 @@ describe("/api/genres", () => {
 
             expect(res.status).toBe(404);
         });
+
+        it("should return 404 if genre with the given id was not found", async () => {
+            id = new mongoose.Types.ObjectId();
+
+            const res = await execute();
+
+            expect(res.status).toBe(404);
+        });
+
+        it("should update the genre if input is valid", async () => {
+            await execute();
+
+            const updatedGenre = await Genre.findById(genre._id);
+
+            expect(updatedGenre.name).toBe(newName);
+        });
+
+        it("should return the updated genre if it is valid", async () => {
+            const res = await execute();
+
+            expect(res.body).toHaveProperty("_id");
+            expect(res.body).toHaveProperty("name", newName);
+        });
     });
 });
