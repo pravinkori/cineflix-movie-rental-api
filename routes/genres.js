@@ -55,6 +55,7 @@ router.post(
 
 router.put(
     "/:id",
+    [auth, validateObjectId],
     asyncMiddleware(async (req, res) => {
         const { error } = validateGenre(req.body);
         if (error) {
@@ -83,7 +84,7 @@ router.put(
 
 router.delete(
     "/:id",
-    [auth, admin],
+    [auth, admin, validateObjectId],
     asyncMiddleware(async (req, res) => {
         const deleteGenreByID = await Genre.findByIdAndDelete(req.params.id);
 

@@ -14,14 +14,9 @@ describe("/api/genres", () => {
     });
     describe("GET /", () => {
         it("should return all genres", async () => {
-            await Genre.collection.insertMany([
-                {
-                    name: "genre1",
-                },
-                {
-                    name: "genre2",
-                },
-            ]);
+            const genres = [{ name: "genre1" }, { name: "genre2" }];
+            await Genre.collection.insertMany(genres);
+
             const res = await request(server).get("/api/genres");
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
@@ -91,6 +86,47 @@ describe("/api/genres", () => {
             const res = await execute();
             expect(res.body).toHaveProperty("_id");
             expect(res.body).toHaveProperty("name", "Action");
+        });
+    });
+
+    describe("PUT /:id", () => {
+        let token;
+        let newName;
+        let genre;
+        let id;
+
+        const execute = async () => {
+            return await request(server)
+                .put("/api/genres/" + id)
+                .set("x-auth-token", token)
+                .send({ name: newName });
+        };
+
+        beforeEach(async () => {
+            // Before each test we need to create a genre and
+            // put it in the database.
+            genre = new Genre({ name: "genre1" });
+            await genre.save();
+
+            token = new User().generateAuthToken();
+            id = genre._id;
+            newName = "updatedName";
+        });
+
+        it("should return 401 if client is not logged in", async () => {
+            token = "";
+
+            const res = await execute();
+
+            expect(res.status).toBe(401);
+        });
+
+        it("should return 400 if genre is less than 5 characters", async () => {
+            newName = "1234";
+
+            const res = await execute();
+
+            expect(res.status).toBe(400);
         });
     });
 });
