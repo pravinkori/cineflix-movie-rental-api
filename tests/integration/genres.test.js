@@ -128,5 +128,21 @@ describe("/api/genres", () => {
 
             expect(res.status).toBe(400);
         });
+
+        it("should return 400 if genre is more than 50 characters", async () => {
+            newName = new Array(52).join("a");
+
+            const res = await execute();
+
+            expect(res.status).toBe(400);
+        });
+
+        it("should return 404 if id is invalid", async () => {
+            id = 1;
+
+            const res = await execute();
+
+            expect(res.status).toBe(404);
+        });
     });
 });
