@@ -9,7 +9,7 @@ describe("/api/genres", () => {
         server = require("../../index.js");
     });
     afterEach(async () => {
-        server.close();
+        await server.close();
         await Genre.deleteMany({});
     });
     describe("GET /", () => {

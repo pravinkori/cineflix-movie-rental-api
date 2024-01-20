@@ -6,6 +6,7 @@ const movies = require("../routes/movies.js");
 const rentals = require("../routes/rentals.js");
 const users = require("../routes/users.js");
 const auth = require("../routes/auth.js");
+const returns = require("../routes/returns.js");
 const error = require("../middleware/error.js");
 
 module.exports = function (app) {
@@ -24,6 +25,8 @@ module.exports = function (app) {
     app.use("/api/users", users);
     // '/api/users' endpoint is handled by the 'users' router.
     app.use("/api/auth", auth);
+    // '/api/returns' endpoint is handled by the 'returns' router.
+    app.use("/api/returns", returns);
     // '/' endpoint is handled by the 'home' router.
     app.use("/", home);
 

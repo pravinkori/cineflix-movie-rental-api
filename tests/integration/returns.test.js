@@ -28,12 +28,15 @@ describe("/api/returns", () => {
         await rental.save();
     });
     afterEach(async () => {
-        server.close();
+        await server.close();
         await Rental.deleteMany({});
     });
 
-    it("Should work", async () => {
-        const result = await Rental.findById(rental._id);
-        expect(result).not.toBeNull();
+    it("should return 401 if client not logged in", async () => {
+        const res = await request(server).post("/api/returns").send({
+            customerId: customerId,
+            movieId: movieId,
+        });
+        expect(res.status).toBe(401);
     });
 });
