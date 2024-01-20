@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "node_modules/.bin/nodemon index.js",
-        "test": "jest --watchAll --verbose --coverage"
+        "test": "jest --watchAll --runInBand"
     },
     "keywords": [],
     "author": "",
