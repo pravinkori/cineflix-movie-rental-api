@@ -3,11 +3,13 @@ const moment = require("moment");
 const mongoose = require("mongoose");
 const { Rental } = require("../../models/rentals.model.js");
 const { User } = require("../../models/users.model.js");
+const { Movie } = require("../../models/movies.model.js");
 
 describe("/api/returns", () => {
     let server;
     let rental;
     let token;
+    let movie;
     let customerId;
     let movieId;
 
@@ -27,6 +29,15 @@ describe("/api/returns", () => {
         movieId = new mongoose.Types.ObjectId();
         token = new User().generateAuthToken();
 
+        movie = new Movie({
+            _id: movieId,
+            title: "Terminator",
+            dailyRentalRate: 2,
+            genre: { name: "Sci-fi" },
+            numberInStock: 10,
+        });
+        await movie.save();
+
         rental = new Rental({
             customer: {
                 _id: customerId,
@@ -44,6 +55,7 @@ describe("/api/returns", () => {
     afterEach(async () => {
         await server.close();
         await Rental.deleteMany({});
+        await Movie.deleteMany({});
     });
 
     it("should return 401 if client not logged in", async () => {
@@ -95,5 +107,13 @@ describe("/api/returns", () => {
         const res = await execute();
         const validRentalInDatabase = await Rental.findById(rental._id);
         expect(validRentalInDatabase.rentalFee).toBe(14);
+    });
+
+    it("should increase the movie stock if input is valid request", async () => {
+        const res = await execute();
+        const validMovieInDatabase = await Movie.findById(movieId);
+        expect(validMovieInDatabase.numberInStock).toBe(
+            movie.numberInStock + 1
+        );
     });
 });
