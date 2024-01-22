@@ -1,4 +1,5 @@
 const express = require("express");
+const Joi = require("joi");
 const moment = require("moment");
 const asyncMiddleware = require("../middleware/async.js");
 const auth = require("../middleware/auth.js");
@@ -11,12 +12,9 @@ router.post(
     "/",
     auth,
     asyncMiddleware(async (req, res, next) => {
-        if (!req.body.customerId) {
-            return res.status(400).send("customerId not provided");
-        }
-
-        if (!req.body.movieId) {
-            return res.status(400).send("movieId not provided");
+        const { error } = validateReturn(req.body);
+        if (error) {
+            return res.status(400).send(error.details[0].message);
         }
 
         const rental = await Rental.findOne({
@@ -43,5 +41,13 @@ router.post(
         return res.status(200).send(rental);
     })
 );
+
+function validateReturn(req) {
+    const schema = Joi.object({
+        customerId: Joi.string().required(),
+        movieId: Joi.string().required(),
+    });
+    return schema.validate(req);
+}
 
 module.exports = router;
