@@ -1,11 +1,13 @@
 const express = require("express");
 const asyncMiddleware = require("../middleware/async.js");
+const auth = require("../middleware/auth.js");
 const { Rental } = require("../models/rentals.model.js");
 
 const router = express.Router();
 
 router.post(
     "/",
+    auth,
     asyncMiddleware(async (req, res, next) => {
         if (!req.body.customerId) {
             return res.status(400).send("customerId not provided");
@@ -27,7 +29,7 @@ router.post(
             return res.status(400).send("Return already processed");
         }
 
-        res.status(401).send("Unauthorized access");
+        return res.status(200).send();
     })
 );
 
