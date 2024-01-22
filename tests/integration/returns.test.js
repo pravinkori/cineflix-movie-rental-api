@@ -116,4 +116,20 @@ describe("/api/returns", () => {
             movie.numberInStock + 1
         );
     });
+
+    it("should return the rental if input is valid request", async () => {
+        const res = await execute();
+
+        const rentalInDatabase = await Rental.findById(rental._id);
+
+        expect(Object.keys(res.body)).toEqual(
+            expect.arrayContaining([
+                "dateOut",
+                "dateReturned",
+                "rentalFee",
+                "customer",
+                "movie",
+            ])
+        );
+    });
 });
