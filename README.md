@@ -1,3 +1,7 @@
+# Cineflix Movie Rental API
+
+Cineflix Movie Rental API is a Node.js-based REST API for managing movie-related information, including genres, movies, customers, rentals, users, authentication, and returns.
+
 ## Table of Contents
 
 -   [Overview](#overview)
@@ -8,10 +12,6 @@
     -   [Run the Application](#run-the-application)
 -   [Testing](#testing)
 -   [API Endpoints](#api-endpoints)
-
-# Cineflix Movie Rental API
-
-Cineflix Movie Rental API is a Node.js-based REST API for managing movie-related information, including genres, movies, customers, rentals, users, authentication, and returns.
 
 ## Overview
 
